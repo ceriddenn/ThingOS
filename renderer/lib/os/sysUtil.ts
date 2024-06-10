@@ -1,7 +1,7 @@
 
 const setSysSetup = (value: boolean): boolean => {
     // set sys value
-    window.ipc.send("sc1", value);
+    window.ipc.send("store_set", value);
     return true
 }
 

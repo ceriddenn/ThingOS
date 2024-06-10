@@ -9,14 +9,22 @@ const SetupPage = () => {
     const controls = useAnimation();
     const [showContent, setShowContent] = useState(false);
 
-
+    window.ipc.on('connected-users', (event, connectedUsers) => {
+        // Update UI with connected users information
+        console.log('Connected users:', connectedUsers);
+        // You can update the UI as per your requirement here
+      });
 
     useEffect(() => {
+        setInterval(async () => {
+            // Check for connected users every 1 second
+            window.ipc.send('check-users');
+          }, 1000);
         const sequence = async () => {
           await controls.start({ opacity: 1, transition: { duration: 1.5 } });
           setTimeout(() => {
             setShowContent(true);
-            createSetupNetwork()
+            createSetupNetwork();
           }, 1000); // Delay before showing spinner
         };
         sequence();
