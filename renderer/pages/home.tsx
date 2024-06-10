@@ -13,7 +13,6 @@ const App = () => {
   const router = useRouter();
 
   const setupCheck = async () => {
-    setSysSetup(false)
     setCurrentTaskCheck("Checking Initilization Status...")
     const isSetup = await isSysSetup();
     if (!isSetup) {

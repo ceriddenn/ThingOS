@@ -21,12 +21,13 @@ if (isProd) {
   const mainWindow = createWindow('main', {
     width: 1000,
     height: 600,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
     },
   })
-
+  mainWindow.setKiosk(true)
   if (isProd) {
     await mainWindow.loadURL('app://./home')
   } else {
@@ -56,9 +57,9 @@ ipcMain.on("setup_setup-network", (event, arg) => {
 ipcMain.on('setup_check_user_connected', (event) => {
     exec('iw dev wlan0 station dump', (error, stdout, stderr) => {
       if (stdout.length > 0) {
-        event.sender.send('setup_network_connected-user', "true");
+        event.sender.send('setup_network_connected-user', true);
       } else {
-        event.sender.send('setup_network_connected-user', "false");
+        event.sender.send('setup_network_connected-user', false);
       }
     });
 });

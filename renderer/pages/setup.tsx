@@ -3,6 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import React, { useEffect, useState } from 'react'
 import { FaSignal } from "react-icons/fa";
 import { createSetupNetwork } from '../lib/os/sysUtil';
+import QRCode from 'react-qr-code';
 const MotionBox = motion(Box);
 
 const SetupPage = () => {
@@ -10,9 +11,8 @@ const SetupPage = () => {
     const [showContent, setShowContent] = useState(false);
     const [showScanCode, setShowScanCode] = useState(false);
 
-    window.ipc.on('setup_network_connected-user', (event, connectedUser) => {
-        console.log(event)
-        console.log(connectedUser)        
+    window.ipc.on('setup_network_connected-user', (connectedUser: boolean) => {
+        setShowScanCode(connectedUser)    
       });
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const SetupPage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
           >
-                <Text color={'white'}>User Connected, QR CODE HERE</Text>
+                <QRCode value='http://10.0.42.1'/>
             </MotionBox>
           )}
           </Flex>
