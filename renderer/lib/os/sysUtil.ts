@@ -5,4 +5,9 @@ const setSysSetup = (value: boolean): boolean => {
     return true
 }
 
-export { setSysSetup }
+const createSetupNetwork = () => {
+    window.ipc.send("setup_network", undefined);
+    return true;
+}
+
+export { setSysSetup, createSetupNetwork }

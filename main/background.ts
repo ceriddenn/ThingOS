@@ -2,6 +2,8 @@ import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
+import { exec } from 'node:child_process';
+
 import Store from 'electron-store'
 const store = new Store();
 
@@ -46,4 +48,8 @@ ipcMain.handle('sc', async (event, key) => {
 ipcMain.on("sc1", (event, arg) => {
   const value = arg;
   store.set("setup", value)
+})
+
+ipcMain.on("setup_network", (event, arg) => {
+  exec("nmcli dev wifi hotspot ifname wlan0 ssid DashThing-8216SN password 12345678")
 })
