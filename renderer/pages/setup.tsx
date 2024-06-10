@@ -2,18 +2,25 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { motion, useAnimation } from 'framer-motion';
 import React, { useEffect, useState } from 'react'
 import { FaSignal } from "react-icons/fa";
-
+import { exec } from 'child_process';
 const MotionBox = motion(Box);
+
+const createNetwork = () => {
+exec('nmcli dev wifi hotspot ifname wlan0 ssid DashThing-54598SN password 12345678')
+}
 
 const SetupPage = () => {
     const controls = useAnimation();
     const [showContent, setShowContent] = useState(false);
+
+
 
     useEffect(() => {
         const sequence = async () => {
           await controls.start({ opacity: 1, transition: { duration: 1.5 } });
           setTimeout(() => {
             setShowContent(true);
+            createNetwork()
           }, 1000); // Delay before showing spinner
         };
         sequence();
