@@ -3,6 +3,8 @@ import { motion, useAnimation } from 'framer-motion';
 import React, { useEffect, useState } from 'react'
 import { FaSignal } from "react-icons/fa";
 import { createSetupNetwork } from '../lib/os/sysUtil';
+import { ipcRenderer } from 'electron';
+
 const MotionBox = motion(Box);
 
 const SetupPage = () => {
@@ -10,7 +12,7 @@ const SetupPage = () => {
     const [showContent, setShowContent] = useState(false);
     const [showScanCode, setShowScanCode] = useState(false);
 
-    window.ipc.on('setup_network_connected-user', (event, connectedUser) => {
+    ipcRenderer.on('setup_network_connected-user', (event, connectedUser) => {
         console.log(connectedUser)        
       });
 
