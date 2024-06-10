@@ -51,15 +51,15 @@ ipcMain.on("store_set", (event, key, value) => {
 })
 
 ipcMain.on("setup_setup-network", (event, arg) => {
-  exec("nmcli dev wifi hotspot ifname wlan0 ssid DashThing-8216SN password 12345678")
+  exec("nmcli dev wifi hotspot ifname wlan0 ssid DashThing-V1 password 12345678")
 })
 
 ipcMain.on('setup_check_user_connected', (event) => {
     exec('iw dev wlan0 station dump', (error, stdout, stderr) => {
       if (stdout.length > 0) {
-        event.sender.send('setup_network_connected-user', true);
+        event.sender.send('setup_sys_network_connected-user', true);
       } else {
-        event.sender.send('setup_network_connected-user', false);
+        event.sender.send('setup_sys_network_connected-user', false);
       }
     });
 });
