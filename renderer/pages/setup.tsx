@@ -8,17 +8,20 @@ const MotionBox = motion(Box);
 const SetupPage = () => {
     const controls = useAnimation();
     const [showContent, setShowContent] = useState(false);
+    const [showScanCode, setShowScanCode] = useState(false);
 
-    window.ipc.on('connected-users', (event, connectedUsers) => {
-        // Update UI with connected users information
-        console.log('Connected users:', connectedUsers);
-        // You can update the UI as per your requirement here
+    window.ipc.on('setup_network_connected-user', (event, connectedUser: string) => {
+        if (connectedUser.length > 1 && connectedUser != undefined) {
+            setShowScanCode(true);
+        } else {
+            setShowScanCode(false);
+        }
       });
 
     useEffect(() => {
         setInterval(async () => {
             // Check for connected users every 1 second
-            window.ipc.send('check-users');
+            window.ipc.send('setup_check_user_connected');
           }, 1000);
         const sequence = async () => {
           await controls.start({ opacity: 1, transition: { duration: 1.5 } });
@@ -55,6 +58,15 @@ const SetupPage = () => {
                 <Text color={'#ff8200'}>DashThing-8357SN</Text>
                 <FaSignal color='green'/>
             </Flex>
+            </MotionBox>
+          )}
+           {showScanCode && (
+            <MotionBox
+            initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+          >
+                <Text color={'white'}>User Connected, QR CODE HERE</Text>
             </MotionBox>
           )}
           </Flex>

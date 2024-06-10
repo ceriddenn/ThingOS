@@ -49,23 +49,12 @@ ipcMain.on("store_set", (event, key, value) => {
   store.set(key, value)
 })
 
-ipcMain.on("setup_network", (event, arg) => {
+ipcMain.on("setup_setup-network", (event, arg) => {
   exec("nmcli dev wifi hotspot ifname wlan0 ssid DashThing-8216SN password 12345678")
 })
 
-ipcMain.handle('check-users', async (event) => {
-  return new Promise((resolve, reject) => {
+ipcMain.on('setup_check_user_connected', (event) => {
     exec('iw dev wlan0 station dump', (error, stdout, stderr) => {
-      if (error) {
-        reject(`Error checking connected clients: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        reject(`stderr: ${stderr}`);
-        return;
-      }
-      event.sender.send('connected-users', stdout);
-      resolve(undefined);
+      event.sender.send('setup_network_connected-user', stdout);
     });
-  });
 });
