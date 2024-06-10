@@ -11,6 +11,7 @@ const SetupPage = () => {
     const [showScanCode, setShowScanCode] = useState(false);
 
     window.ipc.on('setup_network_connected-user', (event, connectedUser: string) => {
+        console.log(connectedUser)
         if (connectedUser.length > 1 && connectedUser != undefined) {
             setShowScanCode(true);
         } else {
