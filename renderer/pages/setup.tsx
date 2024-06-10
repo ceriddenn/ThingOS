@@ -10,13 +10,8 @@ const SetupPage = () => {
     const [showContent, setShowContent] = useState(false);
     const [showScanCode, setShowScanCode] = useState(false);
 
-    window.ipc.on('setup_network_connected-user', (event, connectedUser: string) => {
-        console.log(connectedUser)
-        if (connectedUser.length > 1 && connectedUser != undefined) {
-            setShowScanCode(true);
-        } else {
-            setShowScanCode(false);
-        }
+    window.ipc.on('setup_network_connected-user', (event, connectedUser) => {
+        console.log(connectedUser)        
       });
 
     useEffect(() => {

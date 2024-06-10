@@ -55,6 +55,10 @@ ipcMain.on("setup_setup-network", (event, arg) => {
 
 ipcMain.on('setup_check_user_connected', (event) => {
     exec('iw dev wlan0 station dump', (error, stdout, stderr) => {
-      event.sender.send('setup_network_connected-user', stdout);
+      if (stdout.length > 0) {
+        event.sender.send('setup_network_connected-user', "true");
+      } else {
+        event.sender.send('setup_network_connected-user', "false");
+      }
     });
 });
