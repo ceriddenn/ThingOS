@@ -2,7 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { motion, useAnimation } from 'framer-motion';
 import React, { useEffect, useState } from 'react'
 import { FaSignal } from "react-icons/fa";
-import { exec } from 'child_process';
+import { exec } from 'node:child_process';
 const MotionBox = motion(Box);
 
 const createNetwork = () => {
