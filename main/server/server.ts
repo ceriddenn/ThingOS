@@ -19,7 +19,7 @@ app.post('/s/confirm/external', async (req, res) => {
 
   const extSetupCompleted = store.set("setup", body.isCompleted as boolean);
   const vObj = store.set("vehicleMeta", vehicleObj);
-  res.redirect('http://localhost:8888/setup/obd_pairing');
+  res.redirect('http://10.42.0.1:8888/setup/obd_pairing');
 });
 
 // Start the server
