@@ -4,12 +4,15 @@ import React, { useEffect, useState } from 'react'
 import { FaSignal } from "react-icons/fa";
 import { createSetupNetwork } from '../../lib/os/sysUtil';
 import QRCode from 'react-qr-code';
+import { useRouter } from 'next/router';
 const MotionBox = motion(Box);
 
 const SetupPage = () => {
     const controls = useAnimation();
     const [showContent, setShowContent] = useState(false);
     const [showScanCode, setShowScanCode] = useState(false);
+
+    const router = useRouter();
 
     window.ipc.on('setup_sys_network_connected-user', (connectedUser: boolean) => {
         setShowScanCode(connectedUser)    
@@ -19,6 +22,14 @@ const SetupPage = () => {
         setInterval(async () => {
             // Check for connected users every 1 second
             window.ipc.send('setup_check_user_connected');
+          }, 1000);
+          setInterval(async () => {
+            // Check for external setup completion every 1 second.
+              const req = await fetch('http://localhost:3000/s/confirm/external', {
+                method: "get",
+              })
+              const data = await req.json()
+              if (data.isCompleted) router.push('http://localhost:8888/setup/obd_pairing')
           }, 1000);
         const sequence = async () => {
           await controls.start({ opacity: 1, transition: { duration: 1.5 } });

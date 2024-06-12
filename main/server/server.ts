@@ -17,10 +17,15 @@ app.post('/s/confirm/external', async (req, res) => {
     transmission: transmission
   }
 
-  const extSetupCompleted = store.set("setup", body.isCompleted as boolean);
+  const extSetupCompleted = store.set("extSetup", body.isCompleted as boolean);
   const vObj = store.set("vehicleMeta", vehicleObj);
   res.redirect('http://10.42.0.1:8888/setup/obd_pairing');
 });
+
+app.get('/s/confirm/external', async (req,res) => {
+  const extSetupComplete = store.get("extSetup")
+  res.json({ isCompleted: extSetupComplete});
+})
 
 // Start the server
 const startServer = () => {
