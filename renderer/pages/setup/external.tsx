@@ -9,7 +9,17 @@ const MotionBox = motion(Box);
 const SetupPage = () => {
     const controls = useAnimation();
     const [showContent, setShowContent] = useState(false);
-    const [showScanCode, setShowScanCode] = useState(false);
+
+    const [transmission, setTransmission] = useState<string>();
+    const [vehicleMake, setVehicleMake] = useState<string>();
+    const [vehicleModel, setVehicleModel] = useState<string>();
+
+    const handleExternalSetupCompletion = () => {
+      fetch("http://10.42.0.1:3000/s/confirm/external", {
+        method: "post",
+        body: JSON.stringify({ isCompleted: true })
+      })
+    }
 
     useEffect(() => {
         
@@ -44,24 +54,15 @@ const SetupPage = () => {
         transition={{ duration: 1 }}
           >
             <Flex mt={6} direction={'column'} gap={5}>
-            <Input variant='outline' placeholder='Vehicle Make' borderColor={'#ff8200'} textColor={'white'}/>
-            <Input variant='outline' placeholder='Vehicle Model' borderColor={'#ff8200'} textColor={'white'}/>
+            <Input variant='outline' placeholder='Vehicle Make' borderColor={'#ff8200'} textColor={'white'} onChange={event => setVehicleMake(event.target.value)}/>
+            <Input variant='outline' placeholder='Vehicle Model' borderColor={'#ff8200'} textColor={'white'} onChange={event => setVehicleModel(event.target.value)}/>
             <Divider my={2}/>
-            <Select placeholder='Transmission' color={'white'} _selection={{ bgColor: 'black'}} title='Transmission' _selected={{ bgColor: "black"}}>
-                <option value='option1' style={{ backgroundColor: 'black' }}>AUTOMATIC</option>
-                <option value='option2' style={{ backgroundColor: 'black' }}>MANUAL</option>
+            <Select placeholder='Transmission' color={'white'} _selection={{ bgColor: 'black'}} title='Transmission' _selected={{ bgColor: "black"}} onChange={event => setTransmission(event.target.value)}>
+                <option value='AUTOMATIC' style={{ backgroundColor: 'black' }}>AUTOMATIC</option>
+                <option value='MANUAL' style={{ backgroundColor: 'black' }}>MANUAL</option>
             </Select>
-            <Button variant={'outline'} textColor={'white'} _focus={{ textColor: "black"}}>Save and Continue</Button>
+            <Button variant={'outline'} textColor={'white'} _focus={{ textColor: "black"}} onClick={() => handleExternalSetupCompletion()}>Save and Continue</Button>
             </Flex>
-            </MotionBox>
-          )}
-           {showScanCode && (
-            <MotionBox
-            initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-          >
-                <QRCode value='http://10.0.42.1'/>
             </MotionBox>
           )}
           </Flex>

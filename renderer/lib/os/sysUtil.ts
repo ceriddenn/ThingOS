@@ -5,10 +5,15 @@ const setSysSetup = (value: boolean): boolean => {
     return true
 }
 
+const setExtSetup = (value: boolean): boolean => {
+    window.ipc.send("store.set", { key: "extSetup", value: value})
+    return true;
+}
+
 const createSetupNetwork = () => {
     window.ipc.send("setup_setup-network");
     return true;
 }
 
 
-export { setSysSetup, createSetupNetwork }
+export { setSysSetup, createSetupNetwork, setExtSetup }
