@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Button, ChakraProvider, Box, Spinner, Text, Flex } from '@chakra-ui/react';
 import { motion, useAnimation } from 'framer-motion';
 import { isSysSetup } from '../lib/os/sysChecks';
-import { setSysSetup } from '../lib/os/sysUtil';
 import { useRouter } from 'next/router';
 const MotionBox = motion(Box);
 

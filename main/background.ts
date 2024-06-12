@@ -5,6 +5,8 @@ import { createWindow } from './helpers'
 import { exec } from 'node:child_process';
 
 import Store from 'electron-store'
+import { startServer } from './server/server';
+import { StoreSetObj } from './interfaces/elecStore';
 const store = new Store();
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -27,7 +29,7 @@ if (isProd) {
       nodeIntegration: true
     },
   })
-  mainWindow.setKiosk(true)
+  mainWindow.setKiosk(false)
   if (isProd) {
     await mainWindow.loadURL('app://./home')
   } else {
@@ -36,6 +38,9 @@ if (isProd) {
     mainWindow.webContents.openDevTools()
   }
 })()
+
+// start the main backend
+startServer();
 
 app.on('window-all-closed', () => {
   app.quit()
@@ -46,8 +51,8 @@ ipcMain.handle('store_get', async (event, key) => {
   return value;
 })
 
-ipcMain.on("store_set", (event, key, value) => {
-  store.set(key, value)
+ipcMain.on("store_set", (event, obj: StoreSetObj) => {
+  store.set((obj.key), (obj.value))
 })
 
 ipcMain.on("setup_setup-network", (event, arg) => {
@@ -63,3 +68,5 @@ ipcMain.on('setup_check_user_connected', (event) => {
       }
     });
 });
+
+export { store }
