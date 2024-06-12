@@ -1,8 +1,10 @@
 import express from 'express'
 import { store } from '../background';
+import cors from 'cors';
 const app = express();
 const port = 3000;
 
+app.use(cors())
 
 // Basic route
 app.post('/s/confirm/external', async (req, res) => {
