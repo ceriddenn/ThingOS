@@ -14,10 +14,11 @@ const SetupPage = () => {
     const [vehicleMake, setVehicleMake] = useState<string>();
     const [vehicleModel, setVehicleModel] = useState<string>();
 
-    const handleExternalSetupCompletion = () => {
-      fetch("http://10.42.0.1:3000/s/confirm/external", {
-        method: "post",
-        body: JSON.stringify({ isCompleted: true })
+    const handleExternalSetupCompletion = async () => {
+      await fetch("http://10.42.0.1:3000/s/confirm/external", {
+        method: "POST",
+        body: JSON.stringify({ isCompleted: true, vehicleMake: vehicleMake, vehicleModel: vehicleModel, transmission: transmission }),
+        headers: {'Content-Type': 'application/json'}
       })
     }
 

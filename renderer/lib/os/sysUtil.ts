@@ -6,7 +6,7 @@ const setSysSetup = (value: boolean): boolean => {
 }
 
 const setExtSetup = (value: boolean): boolean => {
-    window.ipc.send("store.set", { key: "extSetup", value: value})
+    window.ipc.send("store_set", { key: "extSetup", value: value})
     return true;
 }
 
